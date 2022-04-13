@@ -1,0 +1,88 @@
+# serverless.yml
+
+#组件信息
+component: scf # (必选) 组件名称，在该实例中为scf
+name: jdscript # (必选) 组件实例名称。
+
+#组件参数配置
+inputs:
+  name: scf-${name} # 云函数名称，默认为 ${name}-${stage}-${app}
+  enableRoleAuth: true # 默认会尝试创建 SCF_QcsRole 角色，如果不需要配置成 false 即可
+  src: ./
+  handler: index.main_handler #入口
+  runtime: Nodejs12.16 # 运行环境 默认 Nodejs10.15
+  region: ap-hongkong # 函数所在区域
+  description: This is a function in ${app} application.
+  memorySize: 128 # 内存大小，单位MB
+  timeout: 900 # 超时时间，单位秒
+  events: #触发器
+    - timer: #签到
+        parameters:
+          name: beansign
+          cronExpression: "0 0 0 * * * *"
+          enable: true
+          argument: jd_bean_sign
+    - timer: #东东超市兑换奖品 #摇京豆 #京东汽车兑换 #东东健康兑换商品 #内容鉴赏官 #京东小家电签到 #星推官
+        parameters:
+          name: blueCoin_clublottery_carexchange_healthexchange_jsg_xjdSign_xtg
+          cronExpression: "0 0 0 * * * *"
+          enable: true
+          argument: jd_blueCoin&jd_club_lottery&jd_car_exchange&jd_health_exchange&jd_jsg&jd_xjdSign&jd_xtg
+    - timer: #东东农场 #东东萌宠 #口袋书店 #京喜农场 #京东极速版签到 #金榜创造营 #美食馆瓜分京豆 #特务Z #手机狂欢城 #手机狂欢城-助力 #vivo活动
+        parameters:
+          name: fruit_pet_bookshop_jxnc_speedsign_goldcreator_foodRunning_productBrand_carnivalcity_carnivalcityhelp_vivo
+          cronExpression: "0 5 6-18/6,8 * * * *"
+          enable: true
+          argument: jd_fruit&jd_pet&jd_bookshop&jd_jxnc&jd_speed_sign&jd_gold_creator&jd_foodRunning&jd_productBrand&jd_carnivalcity&jd_carnivalcity_help&jd_vivo
+    - timer: #摇钱树 #京东种豆得豆 #京喜工厂 #东东工厂 #京东到家农场收集水车水滴 #京东到家鲜豆庄园收水车水滴 #蒙牛养牛 #发财大赢家之翻翻乐
+        parameters:
+          name: moneyTree_plantBean_dreamFactory_jdfactory_jddjfruitcollect_jddjplantBeanscollect_cowmengniu_bigwinner
+          cronExpression: "0 3 */1 * * * *"
+          enable: true
+          argument: jd_moneyTree&jd_plantBean&jd_dreamFactory&jd_jdfactory&jd_jddj_fruit_collect&jd_jddj_plantBeans_collect&jd_cow_mengniu&jd_big_winner
+    - timer: #签到领现金 #东东小窝 #京喜财富岛 #京东直播 #每日抽奖 #女装魔盒 #东东电竞经理 #京东到家农场 #京东到家鲜豆庄园 #京东超级盒子 #电竞预言家 #京东双十一京享红包 #发财挖宝 #双11特务
+        parameters:
+          name: cash_smallhome_jxbfd_live_dailylottery_nzmh_esManager_jddjfruit_jddjplantBeans_superbox_championgame_doubleElevenRed_fcwb_superBrand
+          cronExpression: "0 0 0-16/8,20 * * * *"
+          enable: true
+          argument: jd_cash&jd_small_home&jd_jxbfd&jd_live&jd_daily_lottery&jd_nzmh&jd_esManager&jd_jddj_fruit&jd_jddj_plantBeans&jd_super_box&jd_champion_game&jd_doubleElevenRed&jd_fcwb&jd_superBrand
+    - timer: #京东全民开红包 #进店领豆 #取关京东店铺商品 #京东抽奖机 #京东汽车 #京东秒秒币 #东东健康社区 #幸运大转盘 #美丽研究院种植园 #清空购物车
+        parameters:
+          name: redPacket_shop_unsubscribe_lotteryMachine_car_ms_health_marketlottery_beautyplantation_clearcart
+          cronExpression: "0 10 0 * * * *"
+          enable: true
+          argument: jd_redPacket&jd_shop&jd_unsubscribe&jd_lotteryMachine&jd_car&jd_ms&jd_health&jd_market_lottery&jd_beauty_plantation&jd_clear_cart
+    - timer: #天天提鹅 #京喜牧场 #汪汪乐园合成 #财富岛捡贝壳 #京喜购物返红包 #东东健康社区收集能量
+        parameters:
+          name: dailyegg_jxmc_joyparkmerge_jxbfdcollect_rebate_healthcollect
+          cronExpression: "0 8 */3 * * * *"
+          enable: true
+          argument: jd_daily_egg&jd_jxmc&jd_joy_park_merge&jd_jxbfd_collect&jx_rebate&jd_health_collect
+    - timer: #东东超市 #十元街 #财富岛热气球 #京喜财富岛合月饼
+        parameters:
+          name: superMarket_syj_jxbfdballoon_jxbfdpeargame
+          cronExpression: "0 15 */1 * * * *"
+          enable: true
+          argument: jd_superMarket&jd_syj&jd_jxbfd_balloon&jd_jxbfd_pear_game
+    - timer: #京豆变动通知 #京东排行榜 #领京豆额外奖励 #京东到家鲜豆任务 #京东会员卡 #京东保价 #芥么小程序签到领现金 #伊利养牛 #清风云养树 #选品官
+        parameters:
+          name: beanchange_rankingList_beanhome_jddjdailyTask_unbind_price_jmsign_cow_tree_selectionOfficer
+          cronExpression: "0 30 7 * * * *"
+          enable: true
+          argument: jd_bean_change&jd_rankingList&jd_bean_home&jd_jddj_dailyTask&jd_unbind&jd_price&jd_jm_sign&jd_cow&jd_tree&jd_selectionOfficer
+    - timer: #金融养猪 #京东快递 #京东赚赚 #京东极速版红包 #领金贴 #送豆得豆 #汪汪乐园 #领京豆 #京喜签到 #东东世界 #京东小家福利社签到 #集魔方 #限时抢京豆
+        parameters:
+          name: pigPet_kd_jdzz_speedredpocke_jintie_sendBeans_joypark_ljd_jxsign_ddworld_flsSign_collectmf_xsqjd
+          cronExpression: "0 3 1 * * * *"
+          enable: true
+          argument: jd_pigPet&jd_kd&jd_jdzz&jd_speed_redpocke&jd_jin_tie&jd_sendBeans&jd_joy_park&jd_ljd&jx_sign&jd_ddworld&jd_flsSign&jd_collect_mf&jd_xsqjd
+
+    #- timer: #签到图形验证 #宠汪汪喂食 #宠汪汪 #宠汪汪积分兑换京豆 #宠汪汪偷好友积分与喂食
+        #parameters:
+          #name: sign_joyfeedPets_joy_joyreward_joysteal
+          #cronExpression: "0 3 1 * * * *"
+          #enable: true
+          #argument: jd_sign&jd_joy_feedPets&jd_joy&jd_joy_reward&jd_joy_steal
+  environment: #  环境变量
+    variables: #  环境变量对象
+      AAA: BBB # 不要删除，用来格式化对齐追加的变量的
